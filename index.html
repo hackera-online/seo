@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SEO Одит — newpc-bg.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D1820;
+    --panel:#12232D;
+    --panel-2:#0F1E27;
+    --line:#1F3B49;
+    --text:#E7EEF1;
+    --text-dim:#7E97A3;
+    --text-faint:#4C6673;
+    --accent:#C97A3D;
+    --accent-soft:rgba(201,122,61,.16);
+    --accent-line:rgba(201,122,61,.4);
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top:96px;}
+  body{
+    margin:0;
+    background:var(--bg);
+    background-image:
+      linear-gradient(rgba(31,59,73,.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(31,59,73,.35) 1px, transparent 1px);
+    background-size:40px 40px;
+    color:var(--text);
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:15px;
+    line-height:1.6;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  a{color:inherit;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(13,24,32,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:18px 28px calc(18px + env(safe-area-inset-top,0px)) 28px;
+    padding-top:calc(18px + env(safe-area-inset-top,0px));
+  }
+  .head-row{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px,4vw,40px);
+    margin:0;
+    letter-spacing:.2px;
+  }
+  h1 span{color:var(--accent);}
+  .subtitle{
+    color:var(--text-dim); margin-top:4px; font-size:13px;
+  }
+  .progress-wrap{
+    min-width:220px;
+  }
+  .progress-label{
+    display:flex; justify-content:space-between; font-size:12px; color:var(--text-dim); margin-bottom:6px;
+  }
+  .progress-label b{color:var(--text); font-weight:600;}
+  .bar{
+    height:6px; width:100%; background:var(--panel-2); border:1px solid var(--line); border-radius:99px; overflow:hidden;
+  }
+  .bar-fill{
+    height:100%; background:var(--accent); width:0%; transition:width .4s ease;
+  }
+  .reset-btn{
+    background:none; border:1px solid var(--line); color:var(--text-dim);
+    font-family:inherit; font-size:11px; padding:6px 10px; border-radius:var(--radius);
+    cursor:pointer; margin-top:8px;
+  }
+  .reset-btn:hover{border-color:var(--accent-line); color:var(--accent);}
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1180px; margin:0 auto;
+    display:grid; grid-template-columns:260px 1fr; gap:36px;
+    padding:28px;
+  }
+  nav.index{
+    position:sticky; top:112px; align-self:start;
+    max-height:calc(100vh - 130px); overflow-y:auto;
+    display:flex; flex-direction:column; gap:2px;
+    padding-right:6px;
+  }
+  nav.index a{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; padding:8px 10px; border-radius:var(--radius);
+    border-left:2px solid transparent;
+    font-size:12.5px; color:var(--text-dim);
+  }
+  nav.index a:hover{color:var(--text);}
+  nav.index a.active{
+    color:var(--text); background:var(--panel); border-left:2px solid var(--accent);
+  }
+  nav.index .n{
+    font-family:'Fraunces',serif; font-weight:600; color:var(--text-faint); width:20px; flex:none;
+  }
+  nav.index a.active .n{color:var(--accent);}
+  nav.index .t{flex:1;}
+  nav.index .c{font-size:10.5px; color:var(--text-faint);}
+
+  main{min-width:0;}
+  section.card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 28px;
+    margin-bottom:22px;
+    scroll-margin-top:100px;
+  }
+  section.card h2{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:21px; margin:0 0 4px 0;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  section.card h2 .num{color:var(--accent); font-size:15px;}
+  section.card .sec-progress{
+    font-size:11.5px; color:var(--text-faint); margin-bottom:16px;
+  }
+  ul.items{list-style:none; margin:0; padding:0;}
+  ul.items li{
+    display:flex; align-items:flex-start; gap:12px;
+    padding:10px 0; border-top:1px solid var(--line);
+  }
+  ul.items li:first-child{border-top:none;}
+  label.chk{
+    display:flex; align-items:flex-start; gap:12px; cursor:pointer; flex:1; min-width:0;
+  }
+  input[type=checkbox]{
+    appearance:none; -webkit-appearance:none;
+    width:16px; height:16px; flex:none; margin-top:3px;
+    border:1px solid var(--text-faint); border-radius:2px;
+    background:var(--panel-2);
+    display:grid; place-content:center;
+    cursor:pointer;
+  }
+  input[type=checkbox]::after{
+    content:"";
+    width:8px; height:8px;
+    background:var(--accent);
+    clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 44% 63%);
+    transform:scale(0);
+    transition:transform .12s ease;
+  }
+  input[type=checkbox]:checked{border-color:var(--accent-line); background:var(--accent-soft);}
+  input[type=checkbox]:checked::after{transform:scale(1);}
+  .item-text{font-size:13.5px; line-height:1.55;}
+  li.done .item-text{color:var(--text-faint); text-decoration:line-through; text-decoration-color:var(--text-faint);}
+  .tool-link{
+    flex:none; align-self:center;
+    font-size:11px; text-decoration:none;
+    border:1px solid var(--line); color:var(--text-dim);
+    padding:4px 9px; border-radius:99px; white-space:nowrap;
+  }
+  .tool-link:hover{border-color:var(--accent-line); color:var(--accent);}
+
+  footer{
+    max-width:1180px; margin:0 auto; padding:10px 28px 60px;
+    color:var(--text-faint); font-size:11.5px;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr; padding:16px;}
+    nav.index{
+      position:sticky; top:0; z-index:15;
+      flex-direction:row; overflow-x:auto; max-height:none;
+      background:rgba(13,24,32,.96); border-bottom:1px solid var(--line);
+      padding:10px 4px; margin:0 -16px 8px; gap:4px;
+    }
+    nav.index a{flex:none; border-left:none; border-bottom:2px solid transparent;}
+    nav.index a.active{border-left:none; border-bottom:2px solid var(--accent);}
+    header{padding:14px 16px calc(14px + env(safe-area-inset-top,0px));}
+    section.card{padding:20px 18px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .bar-fill, input[type=checkbox]::after{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-row">
+    <div>
+      <h1>SEO <span>Одит</span></h1>
+      <div class="subtitle">newpc-bg.com — пълно оперативно ръководство за екипа</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Общ напредък</span><b id="total-label">0 / 0</b></div>
+      <div class="bar"><div class="bar-fill" id="total-bar"></div></div>
+      <button class="reset-btn" id="reset-btn">Нулирай напредъка</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="index" id="index-nav"></nav>
+  <main id="main"></main>
+</div>
+
+<footer>Отметките се пазят автоматично в този браузър (localStorage) — служат за проследяване на прогреса на екипа по одита.</footer>
+
+<script>
+const SECTIONS = [
+{
+  title:"Първоначална настройка и мониторинг",
+  items:[
+    {t:"Верифициране на сайта в Google Search Console (всички версии: http, https, www, non-www)", l:{label:"Search Console", u:"https://search.google.com/search-console"}},
+    {t:"Инсталиране и конфигурация на Google Analytics 4 (GA4)", l:{label:"Analytics", u:"https://analytics.google.com"}},
+    {t:"Настройка на измерване на конверсии и събития в GA4 (поръчки, добавки в количка, запитвания)"},
+    {t:"Свързване на Google Search Console с Google Analytics 4"},
+    {t:"Създаване и потвърждаване на Google Merchant Center акаунт за продуктови реклами и безплатни листинги", l:{label:"Merchant Center", u:"https://merchants.google.com"}},
+    {t:"Настройка на регулярни автоматични сканирания за грешки", l:{label:"Ahrefs Webmaster Tools", u:"https://ahrefs.com/webmaster-tools"}},
+  ]
+},
+{
+  title:"Техническо SEO и инфраструктура",
+  items:[
+    {t:"Проверка на SSL сертификат (HTTPS) и че всички HTTP заявки се пренасочват 301 към HTTPS", l:{label:"SSL Labs", u:"https://www.ssllabs.com/ssltest/"}},
+    {t:"Избор на каноничен домейн (с www или без www) и конфигуриране на 301 пренасочване"},
+    {t:"Оптимизация на robots.txt файла (разрешаване на важните страници, блокиране на системните)", l:{label:"Robots.txt тестер", u:"https://technicalseo.com/tools/robots-txt/"}},
+    {t:"Генериране на динамична sitemap.xml карта, съдържаща само страници с код 200 OK", l:{label:"XML Sitemaps", u:"https://www.xml-sitemaps.com/"}},
+    {t:"Подаване на sitemap.xml в Google Search Console"},
+    {t:"Проверка за счупени връзки (404 грешки) и настройка на 301 пренасочвания", l:{label:"Dead Link Checker", u:"https://www.deadlinkchecker.com/"}},
+    {t:"Премахване на вериги от пренасочвания (301 → 301 → 301)", l:{label:"HTTP Status", u:"https://httpstatus.io/"}},
+    {t:"Създаване на персонализирана 404 страница с линкове към основните категории"},
+    {t:"Проверка на hreflang тагове за българската и английската (/en/) версия", l:{label:"Hreflang тестер", u:"https://technicalseo.com/tools/hreflang/"}},
+  ]
+},
+{
+  title:"Скорост и производителност (Core Web Vitals)",
+  items:[
+    {t:"Компресиране на всички продуктови и категорийни изображения", l:{label:"Squoosh", u:"https://squoosh.app/"}},
+    {t:"Конвертиране на изображенията в съвременни формати (WebP или AVIF)"},
+    {t:"Внедряване на lazy-loading за изображения под първия екран"},
+    {t:"Минифициране на CSS, JavaScript и HTML файловете"},
+    {t:"Настройка на кеширане на ниво браузър и сървър"},
+    {t:"Използване на CDN при нужда"},
+    {t:"Постигане на LCP (Largest Contentful Paint) под 2.5 секунди", l:{label:"PageSpeed Insights", u:"https://pagespeed.web.dev/"}},
+    {t:"Постигане на INP (Interaction to Next Paint) под 200 милисекунди"},
+    {t:"Постигане на CLS (Cumulative Layout Shift) под 0.1"},
+  ]
+},
+{
+  title:"E-Commerce филтри и навигация",
+  items:[
+    {t:"Настройка на канонични тагове за страници с филтри към основната категория"},
+    {t:"Блокиране на безполезни комбинации от филтри от индексация (robots.txt / noindex)"},
+    {t:"Оптимизация на страниците за пагинация с канонични тагове"},
+    {t:"Стратегия за изчерпани продукти — запазване на страницата вместо моментално триене (404)"},
+    {t:"Изчистване на URL адресите от сесийни параметри и ID-та (SE-friendly URLs)"},
+  ]
+},
+{
+  title:"On-Page SEO & съдържание",
+  items:[
+    {t:"Начална страница: уникално заглавие с ключова дума и бранд"},
+    {t:"Категории: шаблон „[Име на категория] – Цени и Купи Онлайн | New PC“"},
+    {t:"Продукти: шаблон „[Марка] [Модел] – Цена и Доставка | New PC“"},
+    {t:"Ограничение на дължината на Title до 50–60 знака", l:{label:"SERP симулатор", u:"https://mangools.com/free-seo-tools/serp-simulator"}},
+    {t:"Уникално мета описание за всяка категория (130–155 знака) с ясен CTA"},
+    {t:"Автоматизиран шаблон за продуктовите мета описания с цена и наличност"},
+    {t:"Точно един H1 таг на всяка страница"},
+    {t:"Логично използване на H2/H3 за спецификации, описания, ревюта"},
+    {t:"Кратък текст (200–400 думи) с полезни съвети в долната част на важните категории"},
+    {t:"Премахване или пренаписване на дублирани текстови блокове"},
+    {t:"Добавяне на описателни alt атрибути на продуктовите снимки"},
+    {t:"Стандартни, чисти имена на файлове (напр. asus-rog-strix-rtx4070.jpg)"},
+    {t:"Breadcrumbs на всички продуктови и категорийни страници"},
+    {t:"Секции „Подобни продукти“, „Свързани аксесоари“, „Последно разгледани“"},
+  ]
+},
+{
+  title:"Структурирани данни (Schema)",
+  items:[
+    {t:"Внедряване на Product Schema (цена, валута, наличност, марка, GTIN/MPN)", l:{label:"Rich Results тест", u:"https://search.google.com/test/rich-results"}},
+    {t:"Внедряване на AggregateRating Schema за продукти с отзиви"},
+    {t:"Внедряване на Organization / LocalBusiness Schema"},
+    {t:"Внедряване на BreadcrumbList Schema за навигационната верига"},
+    {t:"Валидиране на цялата микромаркировка", l:{label:"Schema Validator", u:"https://validator.schema.org/"}},
+  ]
+},
+{
+  title:"B2B страници и локално SEO",
+  items:[
+    {t:"Landing page: Абонаментна ИТ поддръжка за фирми"},
+    {t:"Landing page: Проектиране и изграждане на мрежова инфраструктура"},
+    {t:"Landing page: Доставка, монтаж и поддръжка на сървърно оборудване"},
+    {t:"Оптимизация на „За нас“ и „Контакти“ с ЕИК, адрес, телефони"},
+    {t:"Google Business Profile: точен адрес на офиса/сервиза в София", l:{label:"Business Profile", u:"https://business.google.com"}},
+    {t:"Google Business Profile: правилни категории (Computer Store, Repair, IT Services)"},
+    {t:"Google Business Profile: снимки на офиса, екипа и продуктите"},
+    {t:"Google Business Profile: работно време и телефон за връзка"},
+    {t:"Събиране на реални Google отзиви от B2B клиенти и физически лица"},
+  ]
+},
+{
+  title:"Off-Page SEO, E-E-A-T & външни връзки",
+  items:[
+    {t:"Регистрация в доказани български бизнес каталози", l:{label:"GoldenPages", u:"https://www.goldenpages.bg"}},
+    {t:"Публикуване на PR статии в технологични медии за хардуер в България"},
+    {t:"Изграждане на партньорски линкове от официални дистрибутори и марки"},
+    {t:"Мониторинг на анкор текстовете за избягване на спам", l:{label:"Ahrefs Backlink Checker", u:"https://ahrefs.com/backlink-checker"}},
+    {t:"Регулярен одит за спам и токсични външни връзки"},
+    {t:"Наличие на страници: Общи условия, Поверителност, Доставка, Връщане"},
+  ]
+},
+{
+  title:"CRO & потребителско изживяване",
+  items:[
+    {t:"Бърз и интуитивен процес по финализиране на поръчката (Checkout)"},
+    {t:"Възможност за поръчка „Без регистрация“ / „Поръчай по телефон“"},
+    {t:"Видими сертификати за сигурност, опции за плащане и доставка"},
+    {t:"Ясна търсачка на сайта с автодовършване"},
+    {t:"Безупречна мобилна версия с лесно достъпни бутони и филтри"},
+  ]
+},
+{
+  title:"Проучване на ключови думи и съдържание",
+  items:[
+    {t:"Пълно проучване на ключови думи по категории (обем, конкуренция, намерение)", l:{label:"Keyword Planner", u:"https://ads.google.com/home/tools/keyword-planner/"}},
+    {t:"Клъстеризация на ключови думи по теми и mapping към URL-и"},
+    {t:"Gap анализ на съдържанието на конкурентите", l:{label:"Ahrefs", u:"https://ahrefs.com/content-gap"}},
+    {t:"Стратегия за блог/статии (сравнения, ръководства, „как да“)"},
+    {t:"Оптимизация за featured snippets и „People Also Ask“"},
+    {t:"Редовно опресняване (content refresh) на остаряло съдържание"},
+  ]
+},
+{
+  title:"Архитектура и дълбочина на сайта",
+  items:[
+    {t:"Проверка на „правилото за 3 клика“ до важните продукти"},
+    {t:"Откриване на orphan pages (страници без вътрешни връзки)", l:{label:"Screaming Frog", u:"https://www.screamingfrog.co.uk/seo-spider/"}},
+    {t:"Анализ на crawl depth и crawl budget при голям каталог"},
+    {t:"Проверка дали JS рендиране не пречи на индексацията"},
+    {t:"Одит на страници със случайно поставен noindex/nofollow"},
+  ]
+},
+{
+  title:"Сигурност и техническа поддръжка",
+  items:[
+    {t:"Редовно сканиране за malware/хакнати страници"},
+    {t:"Конфигурация на security headers (HSTS, CSP, X-Frame-Options)", l:{label:"Security Headers", u:"https://securityheaders.com/"}},
+    {t:"Автоматизирани бекъпи на сайта и базата данни"},
+    {t:"Мониторинг на TTFB и хостинг производителност", l:{label:"WebPageTest", u:"https://www.webpagetest.org/"}},
+    {t:"GDPR-съвместим банер за бисквитки", l:{label:"Cookiebot", u:"https://www.cookiebot.com/"}},
+  ]
+},
+{
+  title:"Допълнителна маркировка и социални мета тагове",
+  items:[
+    {t:"Open Graph тагове за споделяне в социални мрежи"},
+    {t:"Twitter Card тагове"},
+    {t:"FAQ Schema за страници с чести въпроси"},
+    {t:"VideoObject Schema, ако има продуктови видеа"},
+    {t:"Правилен favicon и app иконки"},
+  ]
+},
+{
+  title:"Мониторинг и продължаващ анализ",
+  items:[
+    {t:"Rank tracking инструмент за позиции по ключови думи", l:{label:"Ahrefs Rank Tracker", u:"https://ahrefs.com/rank-tracker"}},
+    {t:"Дашборд за 4xx грешки с автоматични нотификации"},
+    {t:"Мониторинг на „нулеви резултати“ от вътрешната търсачка"},
+    {t:"Тримесечен competitor backlink анализ"},
+    {t:"Проверка на International Targeting в GSC (таргет България)"},
+    {t:"Одит на x-default hreflang стойност"},
+  ]
+},
+{
+  title:"Изчерпани / спрени продукти",
+  items:[
+    {t:"Разграничение кога да се ползва 404, 410 или запазена страница с алтернативи"},
+    {t:"Автоматична синхронизация на наличностите с Google Merchant Center feed-а"},
+  ]
+},
+];
+
+const KEY = "seo-audit-newpc-bg";
+let state = {};
+try{ state = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ state = {}; }
+
+const mainEl = document.getElementById('main');
+const navEl = document.getElementById('index-nav');
+
+function itemId(si, ii){ return si + '-' + ii; }
+
+function sectionCounts(si){
+  const items = SECTIONS[si].items;
+  let done = 0;
+  items.forEach((_, ii) => { if(state[itemId(si,ii)]) done++; });
+  return {done, total: items.length};
+}
+
+function totalCounts(){
+  let done=0, total=0;
+  SECTIONS.forEach((s, si) => {
+    s.items.forEach((_, ii) => { total++; if(state[itemId(si,ii)]) done++; });
+  });
+  return {done, total};
+}
+
+function save(){
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+
+function renderProgress(){
+  const {done, total} = totalCounts();
+  document.getElementById('total-label').textContent = done + ' / ' + total;
+  document.getElementById('total-bar').style.width = (total ? (done/total*100) : 0) + '%';
+  SECTIONS.forEach((_, si) => {
+    const c = sectionCounts(si);
+    const navCount = document.querySelector('#nav-count-' + si);
+    if(navCount) navCount.textContent = c.done + '/' + c.total;
+  });
+}
+
+function build(){
+  SECTIONS.forEach((sec, si) => {
+    // nav entry
+    const a = document.createElement('a');
+    a.href = '#sec-' + si;
+    a.innerHTML = '<span class="n">' + String(si+1).padStart(2,'0') + '</span><span class="t">' + sec.title + '</span><span class="c" id="nav-count-' + si + '"></span>';
+    navEl.appendChild(a);
+
+    // section card
+    const card = document.createElement('section');
+    card.className = 'card';
+    card.id = 'sec-' + si;
+
+    const h2 = document.createElement('h2');
+    h2.innerHTML = '<span class="num">' + String(si+1).padStart(2,'0') + '</span>' + sec.title;
+    card.appendChild(h2);
+
+    const secProg = document.createElement('div');
+    secProg.className = 'sec-progress';
+    secProg.id = 'sec-progress-' + si;
+    card.appendChild(secProg);
+
+    const ul = document.createElement('ul');
+    ul.className = 'items';
+
+    sec.items.forEach((item, ii) => {
+      const li = document.createElement('li');
+      const id = itemId(si, ii);
+      if(state[id]) li.classList.add('done');
+
+      const label = document.createElement('label');
+      label.className = 'chk';
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = !!state[id];
+      cb.addEventListener('change', () => {
+        state[id] = cb.checked;
+        li.classList.toggle('done', cb.checked);
+        save();
+        renderProgress();
+      });
+
+      const span = document.createElement('span');
+      span.className = 'item-text';
+      span.textContent = item.t;
+
+      label.appendChild(cb);
+      label.appendChild(span);
+      li.appendChild(label);
+
+      if(item.l){
+        const link = document.createElement('a');
+        link.className = 'tool-link';
+        link.href = item.l.u;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = item.l.label + ' →';
+        li.appendChild(link);
+      }
+
+      ul.appendChild(li);
+    });
+
+    card.appendChild(ul);
+    mainEl.appendChild(card);
+  });
+
+  renderProgress();
+}
+
+build();
+
+// active nav highlight
+const navLinks = Array.from(document.querySelectorAll('nav.index a'));
+const cards = Array.from(document.querySelectorAll('section.card'));
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const idx = cards.indexOf(entry.target);
+    if(entry.isIntersecting){
+      navLinks.forEach(a => a.classList.remove('active'));
+      if(navLinks[idx]) navLinks[idx].classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+cards.forEach(c => io.observe(c));
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if(confirm('Да нулирам ли целия отбелязан напредък?')){
+    state = {};
+    save();
+    document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('li').forEach(li => li.classList.remove('done'));
+    renderProgress();
+  }
+});
+</script>
+</body>
+</html>
